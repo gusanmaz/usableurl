@@ -1,4 +1,4 @@
-module github.com/gusanmaz/usable-url
+module github.com/gusanmaz/usableurl
 
 go 1.16
 

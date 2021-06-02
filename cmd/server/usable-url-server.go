@@ -10,33 +10,31 @@ import (
 	"strings"
 )
 
-type Data struct{
-	In string
+type Data struct {
+	In  string
 	Out string
 }
 
 var (
-	flagPortValue string
-	flagPortUsage string = "Port for web server"
+	flagPortValue   string
+	flagPortUsage   string = "Port for web server"
 	flagPortDefault string = "9001"
 )
 
-
-func init(){
-	flag.StringVar(&flagPortValue, "url", flagPortDefault, flagPortUsage )
-	flag.StringVar(&flagPortValue, "u", flagPortDefault, flagPortUsage + "(shorthand)")
+func init() {
+	flag.StringVar(&flagPortValue, "url", flagPortDefault, flagPortUsage)
+	flag.StringVar(&flagPortValue, "u", flagPortDefault, flagPortUsage+"(shorthand)")
 	flag.Parse()
 }
 
-var urlHandler = func(w http.ResponseWriter, r *http.Request){
+var urlHandler = func(w http.ResponseWriter, r *http.Request) {
 	urlIn := r.URL.Query().Get("url")
 	urlIn = strings.TrimSpace(urlIn)
 	urlOut := usableurl.Sanitize(urlIn)
 	urlOut = strings.TrimSpace(urlOut)
-
 	d := Data{
-		In:urlIn,
-		Out:urlOut,
+		In:  urlIn,
+		Out: urlOut,
 	}
 	bytes, _ := json.Marshal(d)
 
@@ -44,13 +42,13 @@ var urlHandler = func(w http.ResponseWriter, r *http.Request){
 	w.Write(bytes)
 }
 
-func main(){
+func main() {
 	portAddr := fmt.Sprintf("localhost:%v", flagPortValue)
 	http.HandleFunc("/", urlHandler)
 	fmt.Println(portAddr)
 
 	err := http.ListenAndServe(portAddr, nil)
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 }

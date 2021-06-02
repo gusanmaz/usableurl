@@ -11,14 +11,13 @@ var (
 	flagURLUsage string = "URL that may need processing (expansion, addition of http(s) prefix etc..)"
 )
 
-
-func init(){
-	flag.StringVar(&flagURLValue, "url", "", flagURLUsage )
-	flag.StringVar(&flagURLValue, "u", "", flagURLUsage + "(shorthand)")
+func init() {
+	flag.StringVar(&flagURLValue, "url", "", flagURLUsage)
+	flag.StringVar(&flagURLValue, "u", "", flagURLUsage + " (shorthand)")
 	flag.Parse()
 }
 
-func main(){
-	fmt.Println(flagURLValue)
-	fmt.Println(usableurl.Sanitize(flagURLValue))
+func main() {
+	fmt.Printf("Input URL: %v\n", flagURLValue)
+	fmt.Printf("Output URL: %v\n", usableurl.Sanitize(flagURLValue))
 }
